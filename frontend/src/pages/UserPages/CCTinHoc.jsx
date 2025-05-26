@@ -1,7 +1,7 @@
 import React from 'react'
 import Box from '@mui/material/Box'
 
-function TrangChu() {
+function CCTinHoc() {
   return (
     <Box>
       
@@ -9,4 +9,4 @@ function TrangChu() {
   )
 }
 
-export default TrangChu
+export default CCTinHoc

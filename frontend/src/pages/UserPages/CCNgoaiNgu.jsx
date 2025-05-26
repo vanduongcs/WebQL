@@ -1,7 +1,7 @@
 import React from 'react'
 import Box from '@mui/material/Box'
 
-function DangNhap() {
+function CCNgoaiNgu() {
   return (
     <Box>
       
@@ -9,4 +9,4 @@ function DangNhap() {
   )
 }
 
-export default DangNhap
+export default CCNgoaiNgu
