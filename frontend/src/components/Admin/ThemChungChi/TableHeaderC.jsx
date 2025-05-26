@@ -5,16 +5,24 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
 
-function TableHeaderC() {
+function TableHeaderC(){
+  const ListItems =
+    [
+    'Tên chứng chỉ',
+    'Loại',
+    'Lệ phí thi',
+    'Cấp bậc',
+    'Thời gian khởi tạo',
+    'Lần sửa cuối',
+    'Sửa',
+    'Xóa'
+    ]
   return (
     <TableHead>
       <TableRow>
-        <TableCell>Tên chứng chỉ</TableCell>
-        <TableCell>Loại</TableCell>
-        <TableCell>Lệ phí thi</TableCell>
-        <TableCell>Cấp bậc</TableCell>
-        <TableCell>Sửa</TableCell>
-        <TableCell>Xóa</TableCell>
+        {ListItems.map((col) => (
+          <TableCell sx={{ fontWeight: 'bold' }}>{col}</TableCell>
+        ))}
       </TableRow>
     </TableHead>
   )
