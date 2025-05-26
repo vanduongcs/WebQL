@@ -1,6 +1,20 @@
 import { experimental_extendTheme as extendTheme } from '@mui/material/styles'
 
+
+const NAV_BAR_HEIGHT = '60px'
+const FOOTER_HEIGHT = '350px'
+
 const theme = extendTheme({
+  nlcs: {
+    navBarHeight: NAV_BAR_HEIGHT,
+    footerHeight: FOOTER_HEIGHT,
+    light: {
+      main: 'red'
+    },
+    dark: {
+      main: '#0f154263'
+    }
+  },
   colorSchemes: {
     dark: true,
     light: {

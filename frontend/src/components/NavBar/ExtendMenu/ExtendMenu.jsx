@@ -1,24 +1,22 @@
 import React from 'react'
-import Box from '@mui/material/Box'
 import ReorderIcon from '@mui/icons-material/Reorder'
-import IconButton from '@mui/material/IconButton'
-import { useTheme } from '@mui/material/styles'
-import Drawer from '@mui/material/Drawer'
+import { useNavigate } from 'react-router-dom'
+
+// MUI
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
+import Drawer from '@mui/material/Drawer'
+import Box from '@mui/material/Box'
+import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
-import { useNavigate } from 'react-router-dom'
 
 function ExtendMenu() {
-  const theme = useTheme()
-  const isDarkMode = theme.palette.mode === 'dark'
 
-  const hoverColor = isDarkMode ? '#3d4d682b' : '#0f154263'
+  const navigate = useNavigate()
 
   const [open, setOpen] = React.useState(false)
-  const navigate = useNavigate()
 
   const openDrawer = (newOpen) => () => {
     setOpen(newOpen);
@@ -26,18 +24,19 @@ function ExtendMenu() {
 
   const Items = [
     {text: 'Trang chủ', path: '/trang-chu'},
-    {text: 'Đợt thi', path: 'dot-thi'},
-    {text: 'Lịch khai giảng', path: 'lich-khai-giang'},
-    {text: 'Đăng ký khóa ôn', path: 'dang-ky-khoa-on'},
-    {text: 'Đăng ký thi', path: 'dang-ky-thi'},
-    {text: 'Kết quả', path: 'ket-qua'},
-    {text: 'Xác thực chứng chỉ', path: 'xac-thuc-chung-chi'},
-    {text: 'Thông tin chung', path: 'thong-tin-chung'}
+    {text: 'Đợt thi', path: '/dot-thi'},
+    {text: 'Lịch khai giảng', path: '/lich-khai-giang'},
+    {text: 'Đăng ký khóa ôn', path: '/dang-ky-khoa-on'},
+    {text: 'Đăng ký thi', path: '/dang-ky-thi'},
+    {text: 'Kết quả', path: '/ket-qua'},
+    {text: 'Xác thực chứng chỉ', path: '/xac-thuc-chung-chi'},
+    {text: 'Chứng chỉ ngoại ngữ', path: '/chung-chi-ngoai-ngu'},
+    {text: 'Chứng chỉ tin học', path: '/chung-chi-tin-hoc'}
   ]
 
   const ItemList = (
     <Box
-      role="presentation"
+      role='presentation'
       onClick={ openDrawer(false) }
       sx={{
         width: '250px'
@@ -64,10 +63,7 @@ function ExtendMenu() {
         onClick={openDrawer(true)}
         sx={{
           borderRadius: '8px',
-          color: '#f5f6fa',
-          '&:hover': {
-            bgcolor: hoverColor
-          }
+          color: '#f5f6fa'
         }}>
             <ReorderIcon />
         </IconButton>
@@ -75,19 +71,15 @@ function ExtendMenu() {
           open={ open }
           onClose={ openDrawer(false) }>
             <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'flex-end'
-              }}>
-                <IconButton
-                  onClick={openDrawer(false)}
-                  sx={{
-                    borderRadius: '5px'
-                  }}>
+              sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <IconButton 
+                  onClick={openDrawer(false)} 
+                  sx={{ borderRadius: '5px' }}
+                >
                   <CloseIcon />
                 </IconButton>
             </Box>
-          { ItemList }
+            { ItemList }
         </Drawer>
     </Box>
   )

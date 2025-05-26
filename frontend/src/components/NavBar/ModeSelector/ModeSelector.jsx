@@ -1,17 +1,28 @@
-import React from 'react'
-import NavButton from '../NavButton/NavButton'
 import { useColorScheme } from '@mui/material'
 
-function ModeSelector({ Input }) {
+// MUI
+import LightModeIcon from '@mui/icons-material/LightMode'
+import DarkModeIcon from '@mui/icons-material/DarkMode'
+import IconButton from '@mui/material/IconButton'
+
+function ModeSelector() {
+
   const { mode, setMode } = useColorScheme()
+
   const handleChangeMode = () => {
     mode == 'light' ? setMode('dark') : setMode('light')
   }
+
+  const modeIcon = mode === 'light'? <LightModeIcon /> : <DarkModeIcon />
+
   return (
-    <NavButton
-      content={ Input }
-      value={ mode }
-      onClick={ handleChangeMode }></NavButton>
+    <IconButton
+      value= { mode }
+      onClick={ handleChangeMode }
+      sx={{ p: 0.5, color: '#f5f6fa' }}
+    >
+      { modeIcon }
+    </IconButton>
   )
 }
 
