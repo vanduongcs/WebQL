@@ -7,17 +7,27 @@ function RoleAuth({ children }) {
 
   const navigate = useNavigate()
 
-  const TenTK = localStorage.getItem('account')
+
 
   const Auth = async () => {
     try {
-      const res = await axios.get(`http://localhost:2025/api/account/tim-tk/${ TenTK }`)
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate('/dang-nhap');
+        return;
+      }
+      const res = await axios.get('http://localhost:2025/api/account/tim-tk/', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       if (res.data?.Loai && res.data.Loai !== 'admin') {
-        navigate('/trang-chu')
+        navigate('/dang-nhap');
+        localStorage.removeItem('token')
       }
     } catch (error) {
-      console.error('Lỗi xác thực quyền:', error)
-      navigate('/dang-nhap')
+      console.error('Lỗi xác thực quyền:', error);
+      navigate('/dang-nhap');
     }
   }
 

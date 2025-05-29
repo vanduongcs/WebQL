@@ -63,6 +63,7 @@ function NavButton({ content, icon, children1, children2, path, childrenPath1, c
       {children1 && (<Menu
         anchorEl={ anchorEl }
         open={ open }
+        disableScrollLock={true}
         onClose={ () => setAnchorEl(null) }
         sx={{ mt: 1.5, p: 0 }}
       >

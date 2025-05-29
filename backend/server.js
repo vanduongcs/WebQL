@@ -4,6 +4,7 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import accountRoute from './routes/accountRoute.js'
 import certificateRoute from './routes/certificateRoute.js'
+import courseRoute from './routes/courseRoute.js'
 
 const app = express()
 dotenv.config()
@@ -20,3 +21,4 @@ mongoose.connect(process.env.MONGO_URI)
 
 app.use('/api/account', accountRoute)
 app.use('/api/certificate', certificateRoute)
+app.use('/api/course', courseRoute)

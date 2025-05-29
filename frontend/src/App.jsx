@@ -20,7 +20,10 @@ import KTChungChi from './pages/UserPages/KTChungChi.jsx'
 
 // Admin zone
 import Admin from './pages/adminPages/Admin.jsx'
-import ThemChungChi from './pages/adminPages/ThemChungChi.jsx'
+import QLChungChi from './pages/adminPages/QLChungChi.jsx'
+import QLKhoaOn from './pages/adminPages/QLKhoaOn.jsx'
+import QLKyThi from './pages/adminPages/QLKyThi.jsx'
+import QLNguoiDung from './pages/adminPages/QLNguoiDung.jsx'
 
 // Extend
 import PrivateRoute from './components/Auth/PrivateRoute.jsx'
@@ -49,7 +52,10 @@ function Layout() {
           <Route path='/chung-chi-ngoai-ngu' element={<PrivateRoute><CCNgoaiNgu /></PrivateRoute>} />
           <Route path='/chung-chi-tin-hoc' element={<PrivateRoute><CCTinHoc /></PrivateRoute>} />
           <Route path='/admin' element={<PrivateRoute><RoleAuth><Admin /></RoleAuth></PrivateRoute>} />
-          <Route path='/them-chung-chi' element={<PrivateRoute><RoleAuth><ThemChungChi /></RoleAuth></PrivateRoute>} />
+          <Route path='/quan-ly-chung-chi' element={<PrivateRoute><RoleAuth><QLChungChi /></RoleAuth></PrivateRoute>} />
+          <Route path='/quan-ly-khoa-on' element={<PrivateRoute><RoleAuth><QLKhoaOn /></RoleAuth></PrivateRoute>} />
+          <Route path='/quan-ly-ky-thi' element={<PrivateRoute><RoleAuth><QLKyThi /></RoleAuth></PrivateRoute>} />
+          <Route path='/quan-ly-nguoi-dung' element={<PrivateRoute><RoleAuth><QLNguoiDung /></RoleAuth></PrivateRoute>} />
         </Routes>
       </Box>
 

@@ -1,24 +1,45 @@
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import Box from '@mui/material/Box'
-import IconButton from '@mui/material/IconButton'
-import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import Typography from '@mui/material/Typography'
 import { useState, useEffect } from 'react'
 
+// MUI
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import Box from '@mui/material/Box'
+import IconButton from '@mui/material/IconButton'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+
+// Custome
+import API from '.././../../api.jsx'
+
 function ProfileUser() {
 
-  const [anchorEl, setAnchorEl] = React.useState(null)
-  const [userInfo, setUserInfo] = useState(null)
+  const [anchorEl, setAnchorEl] = useState(null)
+  const [UserTenTK, SetUserTenTK] = useState(null)
+  const [UserTenHienThi, SetUserTenHienThi] = useState(null)
+  const [UserLoai, SetUserLoai] = useState(null)
   const open = Boolean(anchorEl)
+
+  const token = localStorage.getItem('token')
 
   const navigate = useNavigate()
 
-  const handleClick = (e) => {
-    setAnchorEl(e.currentTarget)
+  const handleClick = async (e) => {
+  setAnchorEl(e.currentTarget)
+  try {
+    const uData = await API.get('/account/tim-tk/', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    SetUserTenTK(uData.data.TenTK)
+    SetUserTenHienThi(uData.data.TenHienThi)
+    SetUserLoai(uData.data.Loai)
+  } catch (error) {
+    console.error('Lỗi khi gọi API /account/tim-tk/:', error)
   }
+}
 
   const handleClose = () => {
     setAnchorEl(null)
@@ -29,10 +50,6 @@ function ProfileUser() {
     localStorage.removeItem('account')
     navigate('/');
   }
-
-  const testName = 'Zen'
-  const testAccount = 'test'
-  const testRole = 'user'
   
   return (
     <Box>
@@ -47,6 +64,7 @@ function ProfileUser() {
       </IconButton>
       <Menu
         id='profile-menu'
+        disableScrollLock={true}
         anchorEl={ anchorEl }
         open = { open }
         onClose={ handleClose }
@@ -54,16 +72,16 @@ function ProfileUser() {
           mt: 1.25
         }}
         >
-          <MenuItem onClick={ handleClose } >
-            <Typography variant="subtitle1">Tên người dùng: {testName}</Typography>
+          <MenuItem onClick={ handleClose }>
+            <Typography variant="subtitle1">Tên người dùng: { UserTenHienThi}</Typography>
           </MenuItem>
 
           <MenuItem onClick={ handleClose } >
-            <Typography variant="subtitle1">Tài khoản: {testAccount}</Typography>
+            <Typography variant="subtitle1">Tài khoản: {UserTenTK}</Typography>
           </MenuItem>
 
           <MenuItem onClick={ handleClose } >
-            <Typography variant="subtitle1">Vai trò: {testRole}</Typography>
+            <Typography variant="subtitle1">Vai trò: {UserLoai}</Typography>
           </MenuItem>
 
            <MenuItem onClick={ handleLogOut } >
