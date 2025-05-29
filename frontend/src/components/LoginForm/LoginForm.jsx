@@ -32,36 +32,39 @@ function LoginForm() {
   }
 
   const handleSubmit = async () => {
-    try {
-      const res = await API.post('/account/dang-nhap', { TenTK, MatKhau })
+  try {
+    const res = await API.post('/account/dang-nhap', { TenTK, MatKhau })
 
-      localStorage.setItem('account', TenTK)
-      localStorage.setItem('token', res.data.token)
+    localStorage.setItem('token', res.data.token)
+    const token = localStorage.getItem('token')
 
-      Swal.fire({
-            icon: 'success',
-            title: 'Đăng nhập thành công',
-            confirmButtonText: 'Đóng',
-            confirmButtonColor: '#1976d2'
-      })
+    Swal.fire({
+      icon: 'success',
+      title: 'Đăng nhập thành công',
+      confirmButtonText: 'Đóng',
+      confirmButtonColor: '#1976d2'
+    });
 
-      const rAuth = await API.get(`/account/tim-tk/${TenTK}`)
-
-      if ( rAuth.data.Loai === 'admin') {
-        navigate('/admin')
-      } else {
-      navigate('/trang-chu')
+    const rAuth = await API.get('/account/tim-tk/', {
+      headers: {
+        Authorization: `Bearer ${ token }`
       }
+    });
 
-    } catch (error) {
-      Swal.fire({
-        icon: 'warning',
-        title: error.response?.data?.message || 'Đăng nhập thất bại',
-        confirmButtonText: 'Đóng',
-        confirmButtonColor: '#1976d2'
-      })
+    if (rAuth.data.Loai === 'admin') {
+      navigate('/admin');
+    } else {
+      navigate('/trang-chu');
     }
+  } catch (error) {
+    Swal.fire({
+      icon: 'warning',
+      title: error.response?.data?.message || 'Đăng nhập thất bại',
+      confirmButtonText: 'Đóng',
+      confirmButtonColor: '#1976d2'
+    })
   }
+}
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {

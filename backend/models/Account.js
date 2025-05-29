@@ -4,20 +4,46 @@ const AccountSchema = new mongoose.Schema({
   Loai: {
     type: String,
     required: true,
-    default: 'user'
+    trim: true,
+    lowercase: true,
+    default: 'user',
+    enum: ['user', 'admin']
   },
   TenHienThi: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
-  TenTK: {
+  TenTaiKhoan: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
+    trim: true,
+    lowercase: true,
+    maxLength: 256
   },
   MatKhau: {
     type: String,
-    required: true
+    required: true,
+    trim: true,
+    minLength: 6,
+    maxLength: 256
+  },
+  KhoaHocDangHoc: {
+    type: [String],
+    default: []
+  },
+  KhoaHocDaHT: {
+    type: [String],
+    default: []
+  },
+  KhoaThi: {
+    type: [String],
+    default: []
+  },
+  ChungChiDaNhan: {
+    type: [String],
+    default: []
   }
 },
 { 

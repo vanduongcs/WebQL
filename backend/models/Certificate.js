@@ -3,15 +3,17 @@ import mongoose from 'mongoose'
 const CertificateSchema = new mongoose.Schema({
   Loai: {
     type: String,
-    required: true
+    required: true,
+    trim: true,
+    enum: ['Tin học', 'Ngoại ngữ']
   },
   TenChungChi: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   CapDo: {
-    type: String,
-    default: 'Không chia cấp'
+    type: String
   },
   LePhiThi: {
     type: Number,

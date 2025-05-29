@@ -19,7 +19,7 @@ function ModeSelector() {
     <IconButton
       value= { mode }
       onClick={ handleChangeMode }
-      sx={{ p: 0.5, color: '#f5f6fa' }}
+      sx={{ color: '#f5f6fa' }}
     >
       { modeIcon }
     </IconButton>

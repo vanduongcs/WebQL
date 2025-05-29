@@ -10,7 +10,7 @@ function Footer() {
     <Box
       sx={{
         height: (theme) => theme.nlcs.footerHeight,
-        backgroundColor: (theme) => (theme.palette.primary.dark),
+        backgroundColor: (theme) => (theme.palette.info.dark),
         color: '#f5f6fa'
       }}>
         <Box 
