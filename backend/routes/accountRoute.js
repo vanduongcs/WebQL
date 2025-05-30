@@ -10,4 +10,6 @@ router.post('/dang-nhap', accountLoginCheck, accountController.login)
 router.get('/tat-ca-tk', accountController.getAccounts)
 router.get('/tim-tk/', verifyToken, accountController.getAccount)
 router.put('/cap-nhat-tai-khoan/:TenTaiKhoan', accountController.updateAccount)
+router.delete('/xoa-tai-khoan/:id', accountController.deleteAccount)
+
 export default router

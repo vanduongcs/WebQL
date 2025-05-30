@@ -7,6 +7,16 @@ const CourseSchema = new mongoose.Schema({
     trim: true,
     enum: ['Ngoại ngữ', 'Tin học']
   },
+  TenChungChi: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  NgonNgu: {
+    type: String,
+    required: true,
+    trim: true
+  },
   HocPhi: {
     type: Number,
     default: 0,

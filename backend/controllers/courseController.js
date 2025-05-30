@@ -2,9 +2,9 @@ import Course from '../models/Course.js'
 
 const addCourse = async (req, res) => {
   try {
-    const { Loai, HocPhi, NgayKhaiGiang, NgayKetThuc, Buoi, SiSoToiDa, SiSoHienTai, LichHoc } = req.body
+    const { Loai, TenChungChi, NgonNgu, HocPhi, NgayKhaiGiang, NgayKetThuc, Buoi, SiSoToiDa, SiSoHienTai, LichHoc } = req.body
 
-    const newCourse = new Course({ Loai, HocPhi, NgayKhaiGiang, NgayKetThuc, Buoi, SiSoToiDa, SiSoHienTai, LichHoc })
+    const newCourse = new Course({ Loai, TenChungChi, NgonNgu, HocPhi, NgayKhaiGiang, NgayKetThuc, Buoi, SiSoToiDa, SiSoHienTai, LichHoc })
     await newCourse.save()
 
     res.status(201).json({ message: 'Thêm khóa ôn thành công' })
@@ -31,7 +31,7 @@ const updateCourse = async (req, res) => {
     const { id } = req.params
     const updates = req.body
 
-    const updatedCourse = await Certificate.findByIdAndUpdate(
+    const updatedCourse = await Course.findByIdAndUpdate(
       id,
       { $set: updates },
       { new: true }

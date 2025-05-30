@@ -92,10 +92,28 @@ const updateAccount = async (req, res) => {
   }
 }
 
+const deleteAccount = async (req, res) => {
+  try {
+    const { id } = req.params 
+
+    const deletedAccount = await Account.findByIdAndDelete(id) 
+
+    if (!deletedAccount) {
+      return res.status(404).json({ message: 'Không tìm thấy tài khoản để xóa' }) 
+    }
+
+    res.status(200).json({ message: 'Xóa tài khoản thành công' }) 
+  } catch (error) {
+    res.status(500).json({ error: error.message }) 
+  }
+}
+
+
 export default {
   register,
   login,
   getAccounts,
   getAccount,
-  updateAccount
+  updateAccount,
+  deleteAccount
 }

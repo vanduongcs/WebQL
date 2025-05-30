@@ -15,7 +15,7 @@ import API from '../../api.jsx'
 
 function LoginForm() {
 
-  const [TenTK, setTenTK] = useState('')
+  const [TenTaiKhoan, setTenTaiKhoan] = useState('')
   const [MatKhau, setMatKhau] = useState('')
   const navigate = useNavigate()
 
@@ -33,7 +33,7 @@ function LoginForm() {
 
   const handleSubmit = async () => {
   try {
-    const res = await API.post('/account/dang-nhap', { TenTK, MatKhau })
+    const res = await API.post('/account/dang-nhap', { TenTaiKhoan, MatKhau })
 
     localStorage.setItem('token', res.data.token)
     const token = localStorage.getItem('token')
@@ -83,8 +83,8 @@ function LoginForm() {
         {/* Input */}
         <LoginField
           fieldSet={ 'Tài khoản' } 
-          input1={ TenTK } 
-          setFunction={ setTenTK } 
+          input1={ TenTaiKhoan } 
+          setFunction={ setTenTaiKhoan } 
           submitFunction={ handleKeyDown }
         />
 

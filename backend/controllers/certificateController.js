@@ -2,9 +2,9 @@ import Certificate from '../models/Certificate.js'
 
 const addCertificate = async (req, res) => {
   try {
-    const { Loai, TenChungChi, CapDo, LePhiThi } = req.body
+    const { Loai, NgonNgu, TenChungChi, CapDo, LePhiThi } = req.body
 
-    const newCertificate = new Certificate({ Loai, TenChungChi, CapDo, LePhiThi })
+    const newCertificate = new Certificate({ Loai, NgonNgu, TenChungChi, CapDo, LePhiThi })
     await newCertificate.save()
 
     res.status(201).json({ message: 'Thêm chứng chỉ thành công' })

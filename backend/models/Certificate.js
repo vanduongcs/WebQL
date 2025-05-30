@@ -7,6 +7,11 @@ const CertificateSchema = new mongoose.Schema({
     trim: true,
     enum: ['Tin học', 'Ngoại ngữ']
   },
+  NgonNgu: {
+    type: String,
+    required: true,
+    trim: true
+  },
   TenChungChi: {
     type: String,
     required: true,
