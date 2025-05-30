@@ -5,6 +5,8 @@ import dotenv from 'dotenv'
 import accountRoute from './routes/accountRoute.js'
 import certificateRoute from './routes/certificateRoute.js'
 import courseRoute from './routes/courseRoute.js'
+import examRoute from './routes/examRoute.js'
+import resultRoute from './routes/resultRoute.js'
 
 const app = express()
 dotenv.config()
@@ -22,3 +24,5 @@ mongoose.connect(process.env.MONGO_URI)
 app.use('/api/account', accountRoute)
 app.use('/api/certificate', certificateRoute)
 app.use('/api/course', courseRoute)
+app.use('/api/exam', examRoute)
+app.use('/api/result', resultRoute)

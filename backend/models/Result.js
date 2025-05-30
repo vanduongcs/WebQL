@@ -27,19 +27,16 @@ const ResultSchema = new mongoose.Schema({
   },
   Diem3: {
     type: Number,
-    default: -1,
     min: 0,
     max: 10
   },
   Diem4: {
     type: Number,
-    default: -1,
     min: 0,
     max: 10
   },
   DiemTK: {
     type: Number,
-    default: -1,
     min: 0,
     max: 10
   },

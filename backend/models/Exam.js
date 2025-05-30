@@ -5,7 +5,6 @@ const ExamSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    lowercase: true,
     enum: ['Ngoại ngữ', 'Tin học']
   },
   LePhiThi: {
