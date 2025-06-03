@@ -16,7 +16,7 @@ function RoleAuth({ children }) {
         navigate('/dang-nhap');
         return;
       }
-      const res = await axios.get('http://localhost:2025/api/account/tim-tk/', {
+      const res = await axios.get('http://localhost:2025/api/account/tim-tai-khoan/', {
         headers: {
           Authorization: `Bearer ${token}`
         }

@@ -23,7 +23,7 @@ function NavBar() {
   const token = localStorage.getItem('token')
 
   const fetchAccount = async () => {
-    const res = await axios.get('http://localhost:2025/api/account/tim-tk/', {
+    const res = await axios.get('http://localhost:2025/api/account/tim-tai-khoan/', {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -143,6 +143,7 @@ function NavBar() {
               <NavButton content='Người Dùng' path='/quan-ly-nguoi-dung' />
               <NavButton content='Kỳ Thi' path='/quan-ly-ky-thi' />
               <NavButton content='Khóa Ôn' path='/quan-ly-khoa-on' />
+              <NavButton content='Kết quả' path='/quan-ly-ket-qua'/>
             </Box>
             )
           }

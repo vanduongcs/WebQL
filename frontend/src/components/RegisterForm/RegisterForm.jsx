@@ -13,14 +13,14 @@ import RegisterButton from './RegisterButton/RegisterButton.jsx'
 
 function LoginForm() {
   const [TenHienThi, setTenHienThi] = useState('')
-  const [TenTK, setTenTK] = useState('')
+  const [TenTaiKhoan, setTenTaiKhoan] = useState('')
   const [MatKhau, setMatKhau] = useState('')
   const navigate = useNavigate()
 
   const handleSubmit = async () => {
     try {
 
-      const res = await API.post('/account/dang-ky', { TenHienThi, TenTK, MatKhau })
+      const res = await API.post('/account/dang-ky', { TenHienThi, TenTaiKhoan, MatKhau })
       localStorage.setItem('token', res.data.token)
 
       Swal.fire({
@@ -67,7 +67,7 @@ function LoginForm() {
         gap: 3
       }}>
         <img src='/banner.png' />
-        <RegField fieldSet={ 'Tài khoản' } input1={ TenTK } setFunction={ setTenTK } submitFunction={ handleKeyDown } />
+        <RegField fieldSet={ 'Tài khoản' } input1={ TenTaiKhoan } setFunction={ setTenTaiKhoan } submitFunction={ handleKeyDown } />
         <RegField fieldSet={ 'Mật Khẩu' } input1={ MatKhau } setFunction={ setMatKhau } submitFunction={ handleKeyDown } type='password'/>
         <RegField fieldSet={ 'Tên Người Dùng' } input1={ TenHienThi } setFunction={ setTenHienThi } submitFunction={ handleKeyDown } />
         <RegisterButton onClick={handleSubmit} content={'Đăng ký'}/>

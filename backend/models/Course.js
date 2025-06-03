@@ -12,11 +12,6 @@ const CourseSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  NgonNgu: {
-    type: String,
-    required: true,
-    trim: true
-  },
   HocPhi: {
     type: Number,
     default: 0,
@@ -58,7 +53,7 @@ const CourseSchema = new mongoose.Schema({
 },
 { 
   timestamps: true
-});
+})
 
 const Course = mongoose.model('Course', CourseSchema)
 
