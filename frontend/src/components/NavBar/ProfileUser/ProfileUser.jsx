@@ -2,6 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import Typography from '@mui/material/Typography'
 import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 // MUI
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
@@ -9,9 +10,6 @@ import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
-
-// Custome
-import API from '.././../../api.jsx'
 
 function ProfileUser() {
 
@@ -28,16 +26,16 @@ function ProfileUser() {
   const handleClick = async (e) => {
   setAnchorEl(e.currentTarget)
   try {
-    const uData = await API.get('/account/tim-tk/', {
+    const uData = await axios.get('http://localhost:2025/api/account/tim-tai-khoan/', {
       headers: {
         Authorization: `Bearer ${token}`
       }
     })
-    SetUserTenTK(uData.data.TenTK)
+    SetUserTenTK(uData.data.TenTaiKhoan)
     SetUserTenHienThi(uData.data.TenHienThi)
     SetUserLoai(uData.data.Loai)
   } catch (error) {
-    console.error('Lỗi khi gọi API /account/tim-tk/:', error)
+    console.error('Lỗi khi gọi API /account/tim-tai-khoan/:', error)
   }
 }
 

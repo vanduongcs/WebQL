@@ -42,6 +42,7 @@ function ExtendMenu({ isAdmin }) {
       {text: 'Quản lý khóa ôn', path: '/quan-ly-khoa-on'},
       {text: 'Quản lý kỳ thi', path: '/quan-ly-ky-thi'},
       {text: 'Quản lý người dùng', path: '/quan-ly-nguoi-dung'},
+      {text: 'Quản lý kết quả', path: '/quan-ly-ket-qua'}
     ]
   }
 

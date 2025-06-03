@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 const AccountSchema = new mongoose.Schema({
   Loai: {
@@ -29,27 +29,27 @@ const AccountSchema = new mongoose.Schema({
     minLength: 6,
     maxLength: 256
   },
-  KhoaHocDangHoc: {
-    type: [String],
+  KhoaHocDangHoc: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Course',
     default: []
-  },
-  KhoaHocDaHT: {
-    type: [String],
+  }],
+  KhoaHocDaHT: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Course',
     default: []
-  },
-  KhoaThi: {
-    type: [String],
+  }],
+  KhoaThi: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Exam',
     default: []
-  },
-  ChungChiDaNhan: {
-    type: [String],
+  }],
+  KetQua: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Result',
     default: []
-  }
-},
-{ 
-  timestamps: true
-});
+  }]
+}, { timestamps: true })
 
 const Account = mongoose.model('Account', AccountSchema)
-
-export default Account
+export default Account;

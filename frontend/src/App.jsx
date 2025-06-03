@@ -24,6 +24,7 @@ import QLChungChi from './pages/adminPages/QLChungChi.jsx'
 import QLKhoaOn from './pages/adminPages/QLKhoaOn.jsx'
 import QLKyThi from './pages/adminPages/QLKyThi.jsx'
 import QLNguoiDung from './pages/adminPages/QLNguoiDung.jsx'
+import QLKetQua from './pages/adminPages/QLKetQua.jsx'
 
 // Extend
 import PrivateRoute from './components/Auth/PrivateRoute.jsx'
@@ -56,6 +57,8 @@ function Layout() {
           <Route path='/quan-ly-khoa-on' element={<PrivateRoute><RoleAuth><QLKhoaOn /></RoleAuth></PrivateRoute>} />
           <Route path='/quan-ly-ky-thi' element={<PrivateRoute><RoleAuth><QLKyThi /></RoleAuth></PrivateRoute>} />
           <Route path='/quan-ly-nguoi-dung' element={<PrivateRoute><RoleAuth><QLNguoiDung /></RoleAuth></PrivateRoute>} />
+          <Route path='/quan-ly-ket-qua' element={<PrivateRoute><RoleAuth><QLKetQua></QLKetQua></RoleAuth></PrivateRoute>} />
+
         </Routes>
       </Box>
 

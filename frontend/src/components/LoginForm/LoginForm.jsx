@@ -45,7 +45,7 @@ function LoginForm() {
       confirmButtonColor: '#1976d2'
     });
 
-    const rAuth = await API.get('/account/tim-tk/', {
+    const rAuth = await API.get('/account/tim-tai-khoan/', {
       headers: {
         Authorization: `Bearer ${ token }`
       }
