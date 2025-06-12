@@ -1,18 +1,17 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import API from '../../api.jsx'
 import PageComponent from '../../components/Admin/pageComponent/PageComponent.jsx'
 import ResultForm from '../../components/Form/ResultForm.jsx'
 import Swal from 'sweetalert2'
 
 function QLKetQua() {
-  const FormName = ResultForm;
+  const FormName = ResultForm
 
   const [editingResult, setEditingResult] = useState(null)
-
   const [results, setResults] = useState([])
   const [accounts, setAccounts] = useState([])
   const [certificates, setCertificates] = useState([])
-
+  
   const [IDNguoiDung, SetIDNguoiDung] = useState('')
   const [IDChungChi, SetIDChungChi] = useState('')
   const [Diem1, SetDiem1] = useState('')
@@ -39,24 +38,30 @@ function QLKetQua() {
   const pageContent = 'kết quả'
   const funcAdd = 'them-ket-qua'
   const funcFindAll = 'tat-ca-ket-qua'
-  const funcEdit = 'cap-nhat-cha-ket-qua'
+  const funcUpdate = 'cap-nhat-ket-qua'
   const funcDelete = 'xoa-ket-qua'
 
   const fetchAccounts = () => {
-    axios.get('http://localhost:2025/api/account/tat-ca-tai-khoan')
-      .then(res => setAccounts(res.data))
+    API.get('/account/tat-ca-tai-khoan')
+      .then(res => {
+        setAccounts(res.data)
+      })
       .catch(err => console.error('Lỗi khi lấy danh sách tài khoản:', err))
   }
 
   const fetchCertificates = () => {
-    axios.get('http://localhost:2025/api/certificate/tat-ca-chung-chi')
-      .then(res => setCertificates(res.data))
+    API.get('/certificate/tat-ca-chung-chi')
+      .then(res => {
+        setCertificates(res.data)
+      })
       .catch(err => console.error('Lỗi khi lấy danh sách chứng chỉ:', err))
   }
 
   const fetchResults = () => {
-    axios.get(`http://localhost:2025/api/${routeAddress}/${funcFindAll}`)
-      .then(res => setResults(res.data))
+    API.get(`/${routeAddress}/${funcFindAll}`)
+      .then(res => {
+        setResults(res.data)
+      })
       .catch(err => console.error(err))
   }
 
@@ -68,59 +73,31 @@ function QLKetQua() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:2025/api/${routeAddress}/${funcDelete}/${id}`)
+      await API.delete(`/${routeAddress}/${funcDelete}/${id}`)
       fetchResults()
     } catch (error) {
       console.error(`Lỗi khi xóa ${pageContent}:`, error.response?.data || error.message)
     }
-  };
+  }
 
   const handleEdit = (row) => {
-    SetIDNguoiDung(row.IDNguoiDung || '');
-    SetIDChungChi(row.IDChungChi || '');
-    SetDiem1(row.Diem1?.toString() || '');
-    SetDiem2(row.Diem2?.toString() || '');
-    SetDiem3(row.Diem3?.toString() || '');
-    SetDiem4(row.Diem4?.toString() || '');
-    SetNgayCap(row.NgayCap ? new Date(row.NgayCap).toISOString().slice(0, 10) : '');
-    SetNgayHetHan(row.NgayHetHan ? new Date(row.NgayHetHan).toISOString().slice(0, 10) : '');
-    SetTrangThai(row.TrangThai || '');
-    setEditingResult(row._id);
-  };
+    SetIDNguoiDung(row.IDNguoiDung || '')
+    SetIDChungChi(row.IDChungChi || '')
+    SetDiem1(row.Diem1?.toString() || '')
+    SetDiem2(row.Diem2?.toString() || '')
+    SetDiem3(row.Diem3?.toString() || '')
+    SetDiem4(row.Diem4?.toString() || '')
+    SetNgayCap(row.NgayCap ? new Date(row.NgayCap).toISOString().slice(0, 10) : '')
+    SetNgayHetHan(row.NgayHetHan ? new Date(row.NgayHetHan).toISOString().slice(0, 10) : '')
+    SetTrangThai(row.TrangThai || '')
+    setEditingResult(row._id)
+  }
 
   const handleAdd = () => {
-    if (!IDNguoiDung || !IDChungChi || !Diem1 || !Diem2 || !NgayCap) {
-      Swal.fire({
-            icon: 'warning',
-            title: 'Vui lòng nhập đủ: Người dùng,\nChứng chỉ, Điểm 1, Điểm 2,Ngày cấp',
-            width: '700px',
-            confirmButtonText: 'Đóng',
-            confirmButtonColor: '#1976d2'
-          })
-      return;
-    }
-
-    const diem1Num = Number(Diem1);
-    const diem2Num = Number(Diem2);
-    const diem3Num = Diem3 ? Number(Diem3) : undefined;
-    const diem4Num = Diem4 ? Number(Diem4) : undefined;
-
-    if (
-      diem1Num < 0 || diem1Num > 10 ||
-      diem2Num < 0 || diem2Num > 10 ||
-      (diem3Num !== undefined && (diem3Num < 0 || diem3Num > 10)) ||
-      (diem4Num !== undefined && (diem4Num < 0 || diem4Num > 10))
-    ) {
-      Swal.fire({
-            icon: 'warning',
-            title: 'Các điểm phải >=0',
-            width: '700px',
-            confirmButtonText: 'Đóng',
-            confirmButtonColor: '#1976d2'
-          })
-      return;
-    }
-
+    const diem1Num = Number(Diem1)
+    const diem2Num = Number(Diem2)
+    const diem3Num = Diem3 ? Number(Diem3) : undefined
+    const diem4Num = Diem4 ? Number(Diem4) : undefined
     const newResult = {
       IDNguoiDung,
       IDChungChi,
@@ -131,44 +108,20 @@ function QLKetQua() {
       NgayCap: new Date(NgayCap),
       NgayHetHan: NgayHetHan ? new Date(NgayHetHan) : undefined,
       TrangThai: TrangThai || 'Chưa lấy'
-    };
-
-    console.log('Dữ liệu gửi:', newResult);
-
-    axios.post(`http://localhost:2025/api/${routeAddress}/${funcAdd}`, newResult)
+    }
+    API.post(`/${routeAddress}/${funcAdd}`, newResult)
       .then(() => {
-        fetchResults();
-        resetForm();
+        fetchResults()
+        resetForm()
       })
-      .catch(err => console.error('Lỗi thêm kết quả:', err));
-  };
+      .catch(err => console.error('Lỗi thêm kết quả:', err))
+  }
 
   const handleUpdate = () => {
-    if (!editingResult) {
-      console.error('Không có kết quả nào đang được chỉnh sửa');
-      return;
-    }
-
-    if (!IDNguoiDung || !IDChungChi || !Diem1 || !Diem2 || !NgayCap) {
-      alert('Vui lòng điền đầy đủ các trường bắt buộc: Người dùng, Chứng chỉ, Điểm 1, Điểm 2, Ngày cấp!');
-      return;
-    }
-
-    const diem1Num = Number(Diem1);
-    const diem2Num = Number(Diem2);
-    const diem3Num = Diem3 ? Number(Diem3) : undefined;
-    const diem4Num = Diem4 ? Number(Diem4) : undefined;
-
-    if (
-      diem1Num < 0 || diem1Num > 10 ||
-      diem2Num < 0 || diem2Num > 10 ||
-      (diem3Num !== undefined && (diem3Num < 0 || diem3Num > 10)) ||
-      (diem4Num !== undefined && (diem4Num < 0 || diem4Num > 10))
-    ) {
-      alert('Các điểm phải nằm trong khoảng từ 0 đến 10!');
-      return;
-    }
-
+    const diem1Num = Number(Diem1)
+    const diem2Num = Number(Diem2)
+    const diem3Num = Diem3 ? Number(Diem3) : undefined
+    const diem4Num = Diem4 ? Number(Diem4) : undefined
     const updatedResult = {
       IDNguoiDung,
       IDChungChi,
@@ -179,44 +132,43 @@ function QLKetQua() {
       NgayCap: new Date(NgayCap),
       NgayHetHan: NgayHetHan ? new Date(NgayHetHan) : undefined,
       TrangThai: TrangThai || 'Chưa lấy'
-    };
-
-    axios.put(`http://localhost:2025/api/${routeAddress}/${funcEdit}/${editingResult}`, updatedResult)
+    }
+    API.put(`/${routeAddress}/${funcUpdate}/${editingResult}`, updatedResult)
       .then(() => {
-        fetchResults();
-        resetForm();
+        fetchResults()
+        resetForm()
       })
-      .catch(err => console.error('Lỗi cập nhật kết quả:', err));
-  };
+      .catch(err => console.error('Lỗi cập nhật kết quả:', err))
+  }
 
   const resetForm = () => {
-    SetIDNguoiDung('');
-    SetIDChungChi('');
-    SetDiem1('');
-    SetDiem2('');
-    SetDiem3('');
-    SetDiem4('');
-    SetNgayCap('');
-    SetNgayHetHan('');
-    SetTrangThai('');
-    setEditingResult(null);
-  };
+    SetIDNguoiDung('')
+    SetIDChungChi('')
+    SetDiem1('')
+    SetDiem2('')
+    SetDiem3('')
+    SetDiem4('')
+    SetNgayCap('')
+    SetNgayHetHan('')
+    SetTrangThai('')
+    setEditingResult(null)
+  }
 
   const columns = [
     {
       label: 'Người dùng',
       key: 'IDNguoiDung',
       render: (row) => {
-        const account = accounts.find(acc => String(acc._id) === String(row.IDNguoiDung));
-        return account ? account.TenHienThi : 'N/A';
+        const account = accounts.find(acc => String(acc._id) === String(row.IDNguoiDung))
+        return account ? account.TenHienThi : ''
       }
     },
     {
       label: 'Chứng chỉ',
       key: 'IDChungChi',
       render: (row) => {
-        const cert = certificates.find(cert => String(cert._id) === String(row.IDChungChi));
-        return cert ? cert.TenChungChi : 'N/A';
+        const cert = certificates.find(cert => String(cert._id) === String(row.IDChungChi))
+        return cert ? cert.TenChungChi : ''
       }
     },
     { label: 'Điểm 1', key: 'Diem1' },
@@ -231,7 +183,7 @@ function QLKetQua() {
     { label: 'Lần sửa cuối', key: 'updatedAt', isDate: true },
     { label: 'Sửa', key: 'editButton', isAction: 'edit' },
     { label: 'Xóa', key: 'deleteButton', isAction: 'delete' }
-  ];
+  ]
 
   const columnsCanEdit = [
     {
@@ -240,9 +192,8 @@ function QLKetQua() {
       type: 'select',
       options: accounts.map(acc => ({
         value: acc._id,
-        label: acc.TenHienThi || 'N/A'
-      })),
-      multiple: false
+        label: acc.TenHienThi || ''
+      }))
     },
     {
       label: 'Chứng chỉ',
@@ -251,8 +202,7 @@ function QLKetQua() {
       options: certificates.map(cert => ({
         value: cert._id,
         label: cert.TenChungChi
-      })),
-      multiple: false
+      }))
     },
     { label: 'Điểm 1', key: 'Diem1', type: 'number' },
     { label: 'Điểm 2', key: 'Diem2', type: 'number' },
@@ -267,10 +217,9 @@ function QLKetQua() {
       options: [
         { value: 'Chưa lấy', label: 'Chưa lấy' },
         { value: 'Đã lấy', label: 'Đã lấy' }
-      ],
-      multiple: false
+      ]
     }
-  ];
+  ]
 
   return (
     <PageComponent
@@ -287,7 +236,7 @@ function QLKetQua() {
       resetForm={resetForm}
       FormName={FormName}
     />
-  );
+  )
 }
 
-export default QLKetQua;
+export default QLKetQua

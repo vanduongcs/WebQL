@@ -1,22 +1,22 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 
 // Custom
 import PageComponent from '../../components/Admin/pageComponent/PageComponent.jsx'
 import CertificateForm from '../../components/Form/CertificateForm.jsx'
+import API from '../../api.jsx'
+
+// Extend
+import Swal from 'sweetalert2'
 
 function QLChungChi() {
   const FormName = CertificateForm
-  // Hàm set dữ liệu edit và hằng lưu trữ dữ liệu edit
   const [editingCertificate, setEditingCertificate] = useState(null)
 
-  // Danh sách dữ liệu cần edit/add
   const [TenChungChi, SetTenChungChi] = useState('')
   const [Loai, SetLoai] = useState('')
   const [LePhiThi, SetLePhiThi] = useState('')
   const [ThoiHan, SetThoiHan] = useState('')
 
-  // Truyền danh sách trên vào từng field của form
   const formStates = {
     TenChungChi, SetTenChungChi,
     Loai, SetLoai,
@@ -24,69 +24,71 @@ function QLChungChi() {
     ThoiHan, SetThoiHan
   }
 
-  // Đọc danh sách dữ liệu từ database
   const [certificates, setCertificates] = useState([])
 
-  // Gắn vào các lời gọi API, nội dung components
   const routeAddress = 'certificate'
   const pageContent = 'chứng chỉ'
   const funcAdd = 'them-chung-chi'            // C
-  const funcFindAll = 'tat-ca-chung-chi'  // R
-  const funcEdit = 'cap-nhat-chung-chi'       // U
+  const funcFindAll = 'tat-ca-chung-chi'      // R
+  const funcUpdate = 'cap-nhat-chung-chi'       // U
   const funcDelete = 'xoa-chung-chi'          // D
+
+  const handleAdd = () => {
+    const newCertificate = { TenChungChi, Loai, LePhiThi, ThoiHan }
+
+    API.post(`/${routeAddress}/${funcAdd}`, newCertificate)
+      .then(() => {
+        fetchCertificates()
+        resetForm()
+      })
+      .catch(() => {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Lỗi khi thêm chứng chỉ',
+          confirmButtonText: 'Đóng',
+          confirmButtonColor: '#1976d2'
+        })
+      })
+  }
 
     const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:2025/api/${routeAddress}/${funcDelete}/${id}`)
+      await API.delete(`/${routeAddress}/${funcDelete}/${id}`)
       fetchCertificates()
     } catch (error) {
-      console.error(`Lỗi khi xóa ${pageContent}:`, error.response?.data || error.message)
+      Swal.fire({
+        icon: 'warning',
+        title: 'Lỗi khi xóa chứng chỉ',
+        confirmButtonText: 'Đóng',
+        confirmButtonColor: '#1976d2'
+      })
     }
   }
 
   const handleEdit = (row) => {
-    // Chỉ set dữ liệu form để người dùng sửa
-    SetTenChungChi(row.TenChungChi || '')
-    SetLoai(row.Loai || '')
-    SetLePhiThi(row.LePhiThi || '')
-    SetThoiHan(row.ThoiHan || '')
+    SetTenChungChi(row.TenChungChi)
+    SetLoai(row.Loai)
+    SetLePhiThi(row.LePhiThi)
+    SetThoiHan(row.ThoiHan)
     setEditingCertificate(row._id)
   }
 
-  const handleAdd = () => {
-    const newCertificate = {
-      TenChungChi,
-      Loai,
-      LePhiThi,
-      ThoiHan
-    }
-
-    axios.post(`http://localhost:2025/api/${routeAddress}/${funcAdd}`, newCertificate)
-      .then(() => {
-        fetchCertificates()
-        resetForm()
-      })
-      .catch(err => console.error(err))
-  }
-
   const handleUpdate = () => {
-    if (!editingCertificate) {
-      console.error('Không có chứng chỉ nào đang được chỉnh sửa')
-      return
-    }
+    const updatedCertificate = { TenChungChi, Loai, LePhiThi, ThoiHan: Number(ThoiHan) }
 
-    const updatedCertificate = {
-      TenChungChi,
-      Loai,
-      LePhiThi
-    }
-
-    axios.put(`http://localhost:2025/api/${routeAddress}/${funcEdit}/${editingCertificate}`, updatedCertificate)
+    API.put(`/${routeAddress}/${funcUpdate}/${editingCertificate}`, updatedCertificate)
       .then(() => {
         fetchCertificates()
         resetForm()
       })
-      .catch(err => console.error(err))
+      .catch(() => {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Lỗi khi cập nhật chứng chỉ',
+          confirmButtonText: 'Đóng',
+          confirmButtonColor: '#1976d2'
+        })
+      })
   }
 
   const resetForm = () => {
@@ -98,16 +100,22 @@ function QLChungChi() {
   }
 
   const fetchCertificates = () => {
-    axios.get(`http://localhost:2025/api/${routeAddress}/${funcFindAll}`)
+    API.get(`/${routeAddress}/${funcFindAll}`)
       .then(res => setCertificates(res.data))
-      .catch(err => console.error(err))
+      .catch(() => {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Không thể tải danh sách chứng chỉ',
+          confirmButtonText: 'Đóng',
+          confirmButtonColor: '#1976d2'
+        })
+      })
   }
 
   useEffect(() => {
     fetchCertificates()
   }, [])
 
-  // Danh sách cột hiển thị trên table
   const columns = [
     { label: 'Tên chứng chỉ', key: 'TenChungChi' },
     { label: 'Loại', key: 'Loai' },
@@ -115,11 +123,10 @@ function QLChungChi() {
     { label: 'Thời hạn', key: 'ThoiHan'},
     { label: 'Thời gian khởi tạo', key: 'createdAt', isDate: true },
     { label: 'Lần sửa cuối', key: 'updatedAt', isDate: true },
-    { label: 'Sửa', key: 'editButton', isAction: 'edit' },
-    { label: 'Xóa', key: 'deleteButton', isAction: 'delete' }
+    { label: 'Sửa', isAction: 'edit' },
+    { label: 'Xóa', isAction: 'delete' }
   ]
 
-  // Danh sách các trường dữ liệu được phép chỉnh sửa tại form
   const columnsCanEdit = [
     { label: 'Tên chứng chỉ', key: 'TenChungChi' },
     { 
@@ -129,11 +136,10 @@ function QLChungChi() {
       options: [
         { value: 'Ngoại ngữ', label: 'Ngoại ngữ' },
         { value: 'Tin học', label: 'Tin học' },
-      ],
-      multiple: false,
+      ]
     },
     { label: 'Lệ phí thi', key: 'LePhiThi', type: 'number' },
-    { label: 'Thời hạn', key: 'ThoiHan'}
+    { label: 'Thời hạn', key: 'ThoiHan', type: 'number' }
   ]
 
   return (

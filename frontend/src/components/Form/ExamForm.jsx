@@ -7,7 +7,6 @@ import FieldCustome from '../FieldCustome/FieldCustome.jsx'
 
 function ExamForm({ columnsCanEdit, formStates, pageContent, handleAdd, handleUpdate, isEditing, resetForm }) {
   return (
-    // Background
     <Box
       sx={{
         bgcolor: (theme) => theme.palette.background.paper,
@@ -29,33 +28,12 @@ function ExamForm({ columnsCanEdit, formStates, pageContent, handleAdd, handleUp
             options={col.options}
           />
         ))}
-          <Button
-            sx={{ mt: '20px', width: '50%' }}
-            onClick={ handleAdd }
-            variant="contained"
-            disabled={isEditing}
-          >
-            Thêm
-          </Button>
 
-          <Button
-            sx={{ mt: '10px', width: '50%' }}
-            onClick={ handleUpdate }
-            variant="contained"
-            disabled={!isEditing}
-            color="success"
-          >
-            Cập nhật
-          </Button>
+        <Button sx={{ mt: '20px', width: '50%' }} onClick={ handleAdd } variant="contained" disabled={isEditing}>Thêm</Button>
 
-          <Button
-            sx={{ mt: '10px', width: '50%'}}
-            onClick={ resetForm }
-            variant='contained'
-            color="error"
-          >
-            Hủy
-          </Button>
+        <Button sx={{ mt: '10px', width: '50%' }} onClick={ handleUpdate } variant="contained" disabled={!isEditing} color="success">Cập nhật</Button>
+
+        <Button sx={{ mt: '10px', width: '50%'}} onClick={ resetForm } variant='contained' color="error">Hủy</Button>
       </Box>
     </Box>
   )

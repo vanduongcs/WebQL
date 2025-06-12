@@ -8,16 +8,13 @@ function formatDateToGMT7(date) {
   if (!date) return ''
   const utc = new Date(date).getTime() + new Date(date).getTimezoneOffset() * 60000
   const gmt7Date = new Date(utc + 7 * 3600000)
-
   const ss = String(gmt7Date.getSeconds()).padStart(2, '0')
   const mm = String(gmt7Date.getMinutes()).padStart(2, '0')
   const hh = String(gmt7Date.getHours()).padStart(2, '0')
-
   const dd = String(gmt7Date.getDate()).padStart(2, '0')
   const MM = String(gmt7Date.getMonth() + 1).padStart(2, '0')
   const yyyy = gmt7Date.getFullYear()
-
-  return `${dd}/${MM}/${yyyy} [${hh}:${mm}:${ss}]`
+  return `[${hh}:${mm}:${ss}]  ${dd}/${MM}/${yyyy}`
 }
 
 function formatOnlyDate(date) {
@@ -37,25 +34,31 @@ function TableBodyCustome({ rows, columns, handleDelete, handleEdit }) {
           {columns.map((column) => (
             <TableCell
               key={column.key}
-              sx={{ textAlign: Array.isArray(row[column.key]) ? 'center' : 'left' }}
+              sx={{ textAlign: 'left' }}
             >
-              {column.isAction === 'edit' ? (
-                <EditIcon sx={{ cursor: 'pointer', color: (theme) => theme.palette.primary.main }} onClick={() => handleEdit(row)} />
-              ) : column.isAction === 'delete' ? (
-                <DeleteIcon sx={{ cursor: 'pointer', color: (theme) => theme.palette.error.main }} onClick={() => handleDelete(row._id)} />
-              ) : Array.isArray(row[column.key]) ? (
-                row[column.key].map((item, i) => (
-                  <div key={i}>[{item}]</div>
-                ))
-              ) : column.key === 'ThoiHan' ? (
-                row[column.key] === undefined || row[column.key] === null || row[column.key] === 0 || row[column.key] === '' ? 'Vô thời hạn' : `${row[column.key]} năm`
-              ) : column.isDate ? (
-                column.key === 'NgayThi'
-                  ? formatOnlyDate(row[column.key])
-                  : formatDateToGMT7(row[column.key])
-              ) : (
-                row[column.key] !== undefined && row[column.key] !== null ? row[column.key] : ''
-              )}
+              {column?.isAction === 'edit'? 
+                (<EditIcon sx={{ cursor: 'pointer', color: (theme) => theme.palette.primary.main }} onClick={() => handleEdit(row)} />)
+                  : column?.isAction === 'delete' ? 
+                  (<DeleteIcon sx={{ cursor: 'pointer', color: (theme) => theme.palette.error.main }} onClick={() => handleDelete(row._id)} />)
+                    : column.render ? (column.render(row)) 
+                      : Array.isArray(row[column.key]) ? (row[column.key].map((item, i) => <div key={i}>[{item}]</div>)) 
+                        : column.key === 'ThoiHan' ?
+                        (row[column.key] === undefined 
+                         || row[column.key] === null 
+                         || row[column.key] === 0 
+                         || row[column.key] === '' ? 
+                        'Vô thời hạn' 
+                          : `${row[column.key]} năm`) 
+                            : column.isDate ? 
+                            (column.key === 'createdAt' 
+                             || column.key === 'updatedAt' ?
+                            formatDateToGMT7(row[column.key])
+                              : formatOnlyDate(row[column.key])) 
+                                : (row[column.key] !== undefined 
+                                   && row[column.key] !== null ?
+                                row[column.key] 
+                                  : '')
+                }
             </TableCell>
           ))}
         </TableRow>

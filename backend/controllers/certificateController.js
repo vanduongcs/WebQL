@@ -30,7 +30,7 @@ const updateCertificate = async (req, res) => {
     const updates = req.body
 
     const updatedCertificate = await Certificate.findByIdAndUpdate(
-      { id }, 
+      id, 
       { $set: updates },
       { new: true }
     )

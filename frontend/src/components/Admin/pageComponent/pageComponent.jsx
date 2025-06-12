@@ -1,5 +1,5 @@
-import Box from '@mui/material/Box';
-import TableCustome from '../../Table/TableCustome.jsx';
+import Box from '@mui/material/Box'
+import TableCustome from '../../Table/TableCustome.jsx'
 
 function PageComponent({ columns, rows, columnsCanEdit, formStates, pageContent, handleAdd, handleDelete, handleEdit, isEditing, handleUpdate, resetForm, FormName }) {
   return (
@@ -9,7 +9,7 @@ function PageComponent({ columns, rows, columnsCanEdit, formStates, pageContent,
         justifyContent: 'space-around',
         minHeight: '85vh',
         width: '100%',
-        bgcolor: (theme) => theme.palette.background.default,
+        bgcolor: (theme) => theme.palette.background.default
       }}
     >
       {/* Table */}
@@ -35,7 +35,7 @@ function PageComponent({ columns, rows, columnsCanEdit, formStates, pageContent,
         />
       </Box>
     </Box>
-  );
+  )
 }
 
-export default PageComponent;
+export default PageComponent

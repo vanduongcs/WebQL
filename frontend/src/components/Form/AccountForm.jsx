@@ -1,7 +1,10 @@
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import FieldCustome from '../FieldCustome/FieldCustome.jsx';
+// MUI
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+
+// Custome
+import FieldCustome from '../FieldCustome/FieldCustome.jsx'
 
 function AccountForm({ columnsCanEdit, formStates, pageContent, handleAdd, handleUpdate, isEditing, resetForm }) {
   return (
@@ -16,11 +19,8 @@ function AccountForm({ columnsCanEdit, formStates, pageContent, handleAdd, handl
       }}
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-          Quản lý {pageContent}
-        </Typography>
+        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Quản lý {pageContent}</Typography>
 
-        {/* Auto-generated fields */}
         {columnsCanEdit.map(({ key, label, type, options, multiple }) => (
           <FieldCustome
             key={key}
@@ -33,20 +33,14 @@ function AccountForm({ columnsCanEdit, formStates, pageContent, handleAdd, handl
           />
         ))}
 
-        <Button sx={{ mt: '20px', width: '50%' }} onClick={handleAdd} variant="contained" disabled={isEditing}>
-          Thêm
-        </Button>
+        <Button sx={{ mt: '20px', width: '50%' }} onClick={ handleAdd } variant="contained" disabled={isEditing}>Thêm</Button>
 
-        <Button sx={{ mt: '10px', width: '50%' }} onClick={handleUpdate} variant="contained" color="success" disabled={!isEditing}>
-          Cập nhật
-        </Button>
+        <Button sx={{ mt: '10px', width: '50%' }} onClick={ handleUpdate } variant="contained" disabled={!isEditing} color="success">Cập nhật</Button>
 
-        <Button sx={{ mt: '10px', width: '50%' }} onClick={resetForm} variant="contained" color="error">
-          Hủy
-        </Button>
+        <Button sx={{ mt: '10px', width: '50%'}} onClick={ resetForm } variant='contained' color="error">Hủy</Button>
       </Box>
     </Box>
-  );
+  )
 }
 
-export default AccountForm;
+export default AccountForm

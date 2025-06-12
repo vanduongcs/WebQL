@@ -1,6 +1,8 @@
+import jwt from 'jsonwebtoken'
+
+// Collections
 import Account from '../models/Account.js'
 import Result from '../models/Result.js'
-import jwt from 'jsonwebtoken'
 
 const register = async (req, res) => {
   try {
@@ -12,7 +14,7 @@ const register = async (req, res) => {
     }
 
     const newAccount = new Account({ Loai, TenHienThi, TenTaiKhoan, MatKhau })
-    await newAccount.save();
+    await newAccount.save()
 
     res.status(201).json({ message: 'Đăng ký thành công', data: newAccount })
   } catch (error) {
@@ -72,8 +74,8 @@ const getAccount = async (req, res) => {
 
 const updateAccount = async (req, res) => {
   try {
-    const { TenTaiKhoan } = req.params;
-    const updates = req.body;
+    const { TenTaiKhoan } = req.params
+    const updates = req.body
 
     const updatedAccount = await Account.findOneAndUpdate(
       { TenTaiKhoan },

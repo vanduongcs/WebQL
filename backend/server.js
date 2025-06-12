@@ -2,6 +2,8 @@ import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import dotenv from 'dotenv'
+
+// Collection routes
 import accountRoute from './routes/accountRoute.js'
 import certificateRoute from './routes/certificateRoute.js'
 import courseRoute from './routes/courseRoute.js'

@@ -1,7 +1,10 @@
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import FieldCustome from '../FieldCustome/FieldCustome.jsx';
+// MUI
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+
+// Custome
+import FieldCustome from '../FieldCustome/FieldCustome.jsx'
 
 function ResultForm({ columnsCanEdit, formStates, pageContent, handleAdd, handleUpdate, isEditing, resetForm }) {
   return (
@@ -16,9 +19,7 @@ function ResultForm({ columnsCanEdit, formStates, pageContent, handleAdd, handle
       }}
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Typography variant="h6" sx={{ fontWeight: 'bold', cursor: 'default' }}>
-          Quản lý {pageContent}
-        </Typography>
+        <Typography variant="h6" sx={{ fontWeight: 'bold', cursor: 'default' }}>Quản lý {pageContent}</Typography>
         {columnsCanEdit.map((col) => (
           <FieldCustome
             key={col.key}
@@ -30,34 +31,15 @@ function ResultForm({ columnsCanEdit, formStates, pageContent, handleAdd, handle
             multiple={col.multiple}
           />
         ))}
-        <Button
-          sx={{ mt: '20px', width: '50%' }}
-          onClick={handleAdd}
-          variant="contained"
-          disabled={isEditing}
-        >
-          Thêm
-        </Button>
-        <Button
-          sx={{ mt: '10px', width: '50%' }}
-          onClick={handleUpdate}
-          variant="contained"
-          disabled={!isEditing}
-          color="success"
-        >
-          Cập nhật
-        </Button>
-        <Button
-          sx={{ mt: '10px', width: '50%' }}
-          onClick={resetForm}
-          variant="contained"
-          color="error"
-        >
-          Hủy
-        </Button>
+        
+        <Button sx={{ mt: '20px', width: '50%' }} onClick={ handleAdd } variant="contained" disabled={isEditing}>Thêm</Button>
+
+        <Button sx={{ mt: '10px', width: '50%' }} onClick={ handleUpdate } variant="contained" disabled={!isEditing} color="success">Cập nhật</Button>
+
+        <Button sx={{ mt: '10px', width: '50%'}} onClick={ resetForm } variant='contained' color="error">Hủy</Button>
       </Box>
     </Box>
-  );
+  )
 }
 
-export default ResultForm;
+export default ResultForm
