@@ -1,224 +1,248 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import PageComponent from '../../components/Admin/pageComponent/PageComponent.jsx';
-import AccountForm from '../../components/Form/AccountForm.jsx';
+import { useState, useEffect } from 'react'
+
+// Custom
+import API from '../../api.jsx'
+import PageComponent from '../../components/Admin/pageComponent/PageComponent.jsx'
+import AccountForm from '../../components/Form/AccountForm.jsx'
 
 function QLNguoiDung() {
-  const FormName = AccountForm;
+  const FormName = AccountForm
 
-  // State cho dữ liệu edit
-  const [editingAccount, setEditingAccount] = useState(null);
+  const [editingAccount, setEditingAccount] = useState(null)
 
-  // State cho các trường form
-  const [TenHienThi, SetTenHienThi] = useState('');
-  const [TenTaiKhoan, SetTenTaiKhoan] = useState('');
-  const [Loai, SetLoai] = useState('');
-  const [MatKhau, SetMatKhau] = useState('');
-  const [KhoaHocDangHoc, SetKhoaHocDangHoc] = useState([]);
-  const [KhoaHocDaHT, SetKhoaHocDaHT] = useState([]);
-  const [KhoaThi, SetKhoaThi] = useState([]);
-  const [ChungChiDaNhan, SetChungChiDaNhan] = useState([]);
+  const [TenHienThi, SetTenHienThi] = useState('')
+  const [TenTaiKhoan, SetTenTaiKhoan] = useState('')
+  const [Loai, SetLoai] = useState('')
+  const [MatKhau, SetMatKhau] = useState('')
+  const [KhoaHocDaThamGia, SetKhoaHocDaThamGia] = useState([])
+  const [KhoaThi, SetKhoaThi] = useState([])
+  const [ChungChiDaNhan, SetChungChiDaNhan] = useState([])
+  const [courses, setCourses] = useState([])
+  const [exams, setExams] = useState([])
+  const [certificates, setCertificates] = useState([])
+  const [results, setResults] = useState([])
 
-  // State cho danh sách dữ liệu từ các collection
-  const [courses, setCourses] = useState([]);
-  const [exams, setExams] = useState([]);
-  const [certificates, setCertificates] = useState([]);
+  const [oldGetCerts, setOldGetCerts] = useState([])
+  const [oldGetExams, setOldGetExams] = useState([])
+  const [oldGetCompleteCourses, setOldGetCompleteCourses] = useState([])
+  const [oldGetCourses, setOuldGetCourses] = useState([])
 
   const formStates = {
     TenHienThi, SetTenHienThi,
     TenTaiKhoan, SetTenTaiKhoan,
     Loai, SetLoai,
     MatKhau, SetMatKhau,
-    KhoaHocDangHoc, SetKhoaHocDangHoc,
-    KhoaHocDaHT, SetKhoaHocDaHT,
+    KhoaHocDaThamGia, SetKhoaHocDaThamGia,
     KhoaThi, SetKhoaThi,
-    ChungChiDaNhan, SetChungChiDaNhan,
-  };
+    ChungChiDaNhan, SetChungChiDaNhan
+  }
 
-  const [Accounts, SetAccounts] = useState([]);
-
-  const routeAddress = 'account';
-  const pageContent = 'tài khoản';
-  const funcAdd = 'dang-ky';
-  const funcFindAll = 'tat-ca-tai-khoan';
-  const funcEdit = 'cap-nhat-tai-khoan';
-  const funcDelete = 'xoa-tai-khoan';
+  const [Accounts, SetAccounts] = useState([])
+  const routeAddress = 'account'
+  const pageContent = 'tài khoản'
+  const funcAdd = 'dang-ky'
+  const funcFindAll = 'tat-ca-tai-khoan'
+  const funcUpdate = 'cap-nhat-tai-khoan'
+  const funcDelete = 'xoa-tai-khoan'
 
   const fetchAccounts = () => {
-    axios.get(`http://localhost:2025/api/${routeAddress}/${funcFindAll}`)
+    API.get(`/${routeAddress}/${funcFindAll}`)
       .then(res => SetAccounts(res.data))
-      .catch(err => console.error(`Lỗi khi lấy danh sách tài khoản:`, err.response?.data || err.message));
-  };
+      .catch(err => console.error('Lỗi khi lấy danh sách tài khoản:', err.response?.data || err.message))
+  }
 
   const fetchCourses = () => {
-    axios.get(`http://localhost:2025/api/course/tat-ca-khoa-on`)
+    API.get(`/course/tat-ca-khoa-on`)
       .then(res => setCourses(res.data))
-      .catch(err => console.error(`Lỗi khi lấy danh sách khóa học:`, err.response?.data || err.message));
-  };
+      .catch(err => console.error('Lỗi khi lấy danh sách khóa học:', err.response?.data || err.message))
+  }
 
   const fetchExams = () => {
-    axios.get(`http://localhost:2025/api/exam/tat-ca-dot-thi`)
+    API.get(`/exam/tat-ca-dot-thi`)
       .then(res => setExams(res.data))
-      .catch(err => console.error(`Lỗi khi lấy danh sách đợt thi:`, err.response?.data || err.message));
-  };
+      .catch(err => console.error('Lỗi khi lấy danh sách đợt thi:', err.response?.data || err.message))
+  }
 
   const fetchCertificates = () => {
-    axios.get(`http://localhost:2025/api/certificate/tat-ca-chung-chi`)
+    API.get(`/certificate/tat-ca-chung-chi`)
       .then(res => setCertificates(res.data))
-      .catch(err => console.error(`Lỗi khi lấy danh sách chứng chỉ:`, err.response?.data || err.message));
-  };
+      .catch(err => console.error('Lỗi khi lấy danh sách chứng chỉ:', err.response?.data || err.message))
+  }
+
+  const fetchResults = () => {
+    API.get('/result/tat-ca-ket-qua')
+      .then(res => setResults(res.data))
+      .catch(err => console.error('Lỗi khi lấy danh sách kết quả:', err.response?.data || err.message))
+  }
 
   useEffect(() => {
-    fetchAccounts();
-    fetchCourses();
-    fetchExams();
-    fetchCertificates();
-  }, []);
+    fetchAccounts()
+    fetchCourses()
+    fetchExams()
+    fetchResults()
+    fetchCertificates()
+  }, [])
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:2025/api/${routeAddress}/${funcDelete}/${id}`);
-      fetchAccounts();
+      await API.delete(`/${routeAddress}/${funcDelete}/${id}`)
+      fetchAccounts()
     } catch (error) {
-      console.error(`Lỗi khi xóa ${pageContent}:`, error.response?.data || error.message);
+      console.error('Lỗi khi xóa tài khoản:', error.response?.data || error.message)
     }
-  };
+  }
 
   const handleEdit = (row) => {
-    SetTenHienThi(row.TenHienThi || '');
-    SetTenTaiKhoan(row.TenTaiKhoan || '');
-    SetLoai(row.Loai || '');
-    SetMatKhau(row.MatKhau || '');
-    SetKhoaHocDangHoc(row.KhoaHocDangHoc || []);
-    SetKhoaHocDaHT(row.KhoaHocDaHT || []);
-    SetKhoaThi(row.KhoaThi || []);
-    SetChungChiDaNhan(row.KetQua || []);
-    setEditingAccount({ _id: row._id, TenTaiKhoan: row.TenTaiKhoan });
-  };
+    SetTenHienThi(row.TenHienThi || '')
+    SetTenTaiKhoan(row.TenTaiKhoan || '')
+    SetLoai(row.Loai || '')
+    SetMatKhau(row.MatKhau || '')
+    SetKhoaHocDaThamGia(row.KhoaHocDaThamGia || [])
+    SetKhoaThi(row.KhoaThi || [])
+    SetChungChiDaNhan(row.ChungChiDaNhan || [])
+    setOldGetCerts(row.ChungChiDaNhan || [])
+    setOldGetExams(row.KhoaThi || [])
+    setOuldGetCourses(row.KhoaHocDaThamGia || [])
+    setEditingAccount({ _id: row._id, TenTaiKhoan: row.TenTaiKhoan })
+  }
 
   const handleAdd = async () => {
     const newAccount = {
       TenHienThi,
       TenTaiKhoan,
-      Loai,
       MatKhau,
-      KhoaHocDangHoc,
-      KhoaHocDaHT,
-      KhoaThi,
-      KetQua: ChungChiDaNhan,
-    };
+      Loai
+    }
 
     try {
-      // Tạo bản ghi Result cho mỗi Certificate được chọn
-      const resultPromises = ChungChiDaNhan.map(async (certificateId) => {
-        const result = await axios.post(`http://localhost:2025/api/result/them-ket-qua`, {
-          IDNguoiDung: null, // Sẽ cập nhật sau
-          IDChungChi: certificateId,
-          Diem1: 0,
-          Diem2: 0,
-          NgayCap: new Date(),
-          TrangThai: 'Chưa lấy',
-        });
-        return result.data.data._id;
-      });
-
-      const resultIds = await Promise.all(resultPromises);
-      newAccount.KetQua = resultIds;
-
-      const response = await axios.post(`http://localhost:2025/api/${routeAddress}/${funcAdd}`, newAccount);
-      const accountId = response.data.data._id;
-
-      // Cập nhật IDNguoiDung trong Result
-      await Promise.all(
-        resultIds.map((resultId) =>
-          axios.put(`http://localhost:2025/api/result/cap-nhat-ket-qua/${resultId}`, { IDNguoiDung: accountId })
-        )
-      );
-
-      fetchAccounts();
-      resetForm();
+      await API.post(`/${routeAddress}/${funcAdd}`, newAccount)
+      fetchAccounts()
+      resetForm()
     } catch (err) {
-      console.error(`Lỗi khi thêm tài khoản:`, err.response?.data || err.message);
+      console.error('Lỗi khi tạo tài khoản:', err.response?.data || err.message)
     }
-  };
+  }
 
   const handleUpdate = async () => {
-    if (!editingAccount) {
-      console.error(`Không có ${pageContent} nào đang được chỉnh sửa`);
-      return;
-    }
+  const updatedAccount = {
+    TenHienThi,
+    TenTaiKhoan,
+    Loai,
+    MatKhau,
+    KhoaHocDaThamGia,
+    KhoaThi,
+    ChungChiDaNhan
+  }
 
-    const updatedAccount = {
-      TenHienThi,
-      TenTaiKhoan,
-      Loai,
-      MatKhau,
-      KhoaHocDangHoc,
-      KhoaHocDaHT,
-      KhoaThi,
-      KetQua: ChungChiDaNhan,
-    };
+  try {
+    await API.put(`/${routeAddress}/${funcUpdate}/${editingAccount.TenTaiKhoan}`, updatedAccount)
 
-    try {
-      // Tạo hoặc cập nhật bản ghi Result cho mỗi Certificate được chọn
-      const resultPromises = ChungChiDaNhan.map(async (certificateId) => {
-        const existingResult = await axios.get(`http://localhost:2025/api/result/tat-ca-ket-qua`);
-        const matchingResult = existingResult.data.find(
-          (result) => result.IDNguoiDung?.toString() === editingAccount._id && result.IDChungChi.toString() === certificateId
-        );
+    const addedCertificates = ChungChiDaNhan.filter(
+      id => !oldGetCerts.includes(id)
+    )
 
-        if (matchingResult) {
-          return matchingResult._id;
-        } else {
-          const result = await axios.post(`http://localhost:2025/api/result/them-ket-qua`, {
-            IDNguoiDung: editingAccount._id,
-            IDChungChi: certificateId,
-            Diem1: 0,
-            Diem2: 0,
-            NgayCap: new Date(),
-            TrangThai: 'Chưa lấy',
-          });
-          return result.data.data._id;
-        }
-      });
+    const addedExams = KhoaThi.filter(
+      id => !oldGetExams.includes(id)
+    )
 
-      const resultIds = await Promise.all(resultPromises);
-      updatedAccount.KetQua = resultIds;
+    const removedCertificates = oldGetCerts.filter(
+      id => !ChungChiDaNhan.includes(id)
+    )
 
-      await axios.put(`http://localhost:2025/api/${routeAddress}/${funcEdit}/${editingAccount.TenTaiKhoan}`, updatedAccount);
-      fetchAccounts();
-      resetForm();
-    } catch (err) {
-      console.error(`Lỗi khi cập nhật tài khoản Say:`, err.response?.data || err.message);
-    }
-  };
+    const removedExams = oldGetExams.filter(
+      id => !KhoaThi.includes(id)
+    )
+
+    const updateResultStatusPromises = [
+      ...addedCertificates.map(id =>
+        API.put(`/result/cap-nhat-ket-qua/${id}`, { TrangThai: 'Đã lấy' })
+      ),
+      ...removedCertificates.map(id =>
+        API.put(`/result/cap-nhat-ket-qua/${id}`, { TrangThai: 'Chưa lấy' })
+      )
+    ]
+
+    const updateExamStatusPromises = [
+      ...addedExams.map(id => {
+        const exam = exams.find(e => String(e._id) === String(id))
+        const current = exam?.SiSoHienTai || 0
+        return API.put(`/exam/cap-nhat-dot-thi/${id}`, { SiSoHienTai: current + 1 })
+      }),
+      ...removedExams.map(id => {
+        const exam = exams.find(e => String(e._id) === String(id))
+        const current = exam?.SiSoHienTai || 0
+        return API.put(`/exam/cap-nhat-dot-thi/${id}`, { SiSoHienTai: current - 1 })  
+      })
+    ]
+
+    await Promise.all(updateResultStatusPromises, updateExamStatusPromises)
+
+    fetchAccounts()
+    fetchResults()
+    resetForm()
+  } catch (err) {
+    console.error('Lỗi khi cập nhật tài khoản:', err.response?.data || err.message)
+  }
+}
 
   const resetForm = () => {
-    SetTenHienThi('');
-    SetTenTaiKhoan('');
-    SetLoai('');
-    SetMatKhau('');
-    SetKhoaHocDangHoc([]);
-    SetKhoaHocDaHT([]);
-    SetKhoaThi([]);
-    SetChungChiDaNhan([]);
-    setEditingAccount(null);
-  };
+    SetTenHienThi('')
+    SetTenTaiKhoan('')
+    SetLoai('')
+    SetMatKhau('')
+    SetKhoaHocDaThamGia([])
+    SetKhoaThi([])
+    SetChungChiDaNhan([])
+    setEditingAccount(null)
+    setOldGetCerts([])
+  }
 
   const columns = [
-    { label: 'Tên người dùng', key: 'TenHienThi' },
-    { label: 'Tên tài khoản', key: 'TenTaiKhoan' },
+    { label: 'Tên', key: 'TenHienThi' },
+    { label: 'Tài khoản', key: 'TenTaiKhoan' },
     { label: 'Vai trò', key: 'Loai' },
     { label: 'Mật khẩu', key: 'MatKhau' },
-    { label: 'Khóa học đang học', key: 'KhoaHocDangHoc' },
-    { label: 'Khóa học đã hoàn thành', key: 'KhoaHocDaHT' },
-    { label: 'Khóa thi', key: 'KhoaThi' },
-    { label: 'Chứng chỉ đã nhận', key: 'KetQua' },
-    { label: 'Thời gian khởi tạo', key: 'createdAt', isDate: true },
-    { label: 'Lần sửa cuối', key: 'updatedAt', isDate: true },
+    {
+      label: 'Khóa học đã từng tham gia',
+      key: 'KhoaHocDaThamGia',
+      render: (row) => {
+        if (!Array.isArray(row.KhoaHocDaThamGia)) return ''
+        const names = row.KhoaHocDaThamGia.map(id => {
+          const course = courses.find(c => String(c._id) === String(id))
+          return course ? course.TenKhoaHoc || course.TenChungChi || '' : ''
+        })
+        return names.filter(name => name).join(', ') || ''
+      }
+    },
+    {
+      label: 'Khóa thi',
+      key: 'KhoaThi',
+      render: (row) => {
+        if (!Array.isArray(row.KhoaThi)) return ''
+        const names = row.KhoaThi.map(id => {
+          const exam = exams.find(e => String(e._id) === String(id))
+          return exam ? exam.TenKhoaThi || exam.TenChungChi || '' : ''
+        })
+        return names.filter(name => name).join(', ') || ''
+      }
+    },
+    {
+      label: 'Chứng chỉ',
+      key: 'ChungChiDaNhan',
+      render: (row) => {
+        if (!Array.isArray(row.ChungChiDaNhan)) return ''
+        const names = row.ChungChiDaNhan.map(id => {
+          const result = results.find(c => String(c._id) === String(id))
+          return result ? result.TenChungChi || '' : ''
+        })
+        return names.filter(name => name).join(', ') || ''
+      }
+    },
+    { label: 'Ngày tạo', key: 'createdAt', isDate: true },
+    { label: 'Cập nhật', key: 'updatedAt', isDate: true },
     { label: 'Sửa', key: 'editButton', isAction: 'edit' },
-    { label: 'Xóa', key: 'deleteButton', isAction: 'delete' },
-  ];
+    { label: 'Xóa', key: 'deleteButton', isAction: 'delete' }
+  ]
 
   const columnsCanEdit = [
     { key: 'TenHienThi', label: 'Tên người dùng', type: 'text' },
@@ -229,52 +253,41 @@ function QLNguoiDung() {
       type: 'select',
       options: [
         { value: 'user', label: 'User' },
-        { value: 'admin', label: 'Admin' },
-      ],
-      multiple: false,
+        { value: 'admin', label: 'Admin' }
+      ]
     },
     { key: 'MatKhau', label: 'Mật khẩu', type: 'text' },
     {
-      key: 'KhoaHocDangHoc',
-      label: 'Khóa học đang học',
+      key: 'KhoaHocDaThamGia',
+      label: 'Khóa học đã từng tham gia',
       type: 'select',
       options: courses.map(course => ({
         value: course._id || '',
-        label: course.TenChungChi || 'Không xác định',
+        label: course.TenKhoaHoc || course.TenChungChi || 'Không xác định'
       })),
-      multiple: true,
+      multiple: true
     },
     {
-      key: 'KhoaHocDaHT',
-      label: 'Khóa học đã hoàn thành',
-      type: 'select',
-      options: courses.map(course => ({
-        value: course._id || '',
-        label: course.TenChungChi || 'Không xác định',
-      })),
-      multiple: true,
-    },
-    {
-      key: 'KhoaThi',
       label: 'Khóa thi',
+      key: 'KhoaThi',
       type: 'select',
-      options: exams.map(exam => ({
-        value: exam._id || '',
-        label: exam.TenChungChi || 'Không xác định',
-      })),
       multiple: true,
+      options: exams.map(exam => ({
+        value: exam._id,
+        label: exam.TenKhoaThi || exam.TenChungChi || ''
+      }))
     },
     {
+      label: 'Chứng chỉ',
       key: 'ChungChiDaNhan',
-      label: 'Chứng chỉ đã nhận',
       type: 'select',
-      options: certificates.map(certificate => ({
-        value: certificate._id || '',
-        label: certificate.TenChungChi || 'Không xác định',
-      })),
       multiple: true,
-    },
-  ];
+      options: results.map(c => ({
+        value: c._id,
+        label: c.TenChungChi || c._id
+      }))
+    }
+  ]
 
   return (
     <PageComponent
@@ -291,7 +304,7 @@ function QLNguoiDung() {
       resetForm={resetForm}
       FormName={FormName}
     />
-  );
+  )
 }
 
-export default QLNguoiDung;
+export default QLNguoiDung

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import axios from 'axios'
+import API from '../../api.jsx'
 import { useNavigate } from 'react-router-dom'
 
 
@@ -16,7 +16,7 @@ function RoleAuth({ children }) {
         navigate('/dang-nhap');
         return;
       }
-      const res = await axios.get('http://localhost:2025/api/account/tim-tai-khoan/', {
+      const res = await API.get('/account/tim-tai-khoan/', {
         headers: {
           Authorization: `Bearer ${token}`
         }

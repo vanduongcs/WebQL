@@ -7,7 +7,6 @@ import FieldCustome from '../FieldCustome/FieldCustome.jsx'
 
 function CertificateForm({ columnsCanEdit, formStates, pageContent, handleAdd, handleUpdate, isEditing, resetForm }) {
   return (
-    // Background
     <Box
       sx={{
         bgcolor: (theme) => theme.palette.background.paper,
@@ -20,6 +19,7 @@ function CertificateForm({ columnsCanEdit, formStates, pageContent, handleAdd, h
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
         <Typography variant='h6' sx={{ fontWeight: 'bold', cursor: 'default'}}>Quản lý { pageContent }</Typography>
         {columnsCanEdit.map((col) => (
+          // Index
           <FieldCustome
             key={col.key}
             label={col.label}
@@ -27,35 +27,16 @@ function CertificateForm({ columnsCanEdit, formStates, pageContent, handleAdd, h
             func={formStates['Set' + col.key]} 
             type={col.type}
             options={col.options}
-          />
+          >
+
+          </FieldCustome>
         ))}
-          <Button
-            sx={{ mt: '20px', width: '50%' }}
-            onClick={ handleAdd }
-            variant="contained"
-            disabled={isEditing}
-          >
-            Thêm
-          </Button>
 
-          <Button
-            sx={{ mt: '10px', width: '50%' }}
-            onClick={ handleUpdate }
-            variant="contained"
-            disabled={!isEditing}
-            color="success"
-          >
-            Cập nhật
-          </Button>
+          <Button sx={{ mt: '20px', width: '50%' }} onClick={ handleAdd } variant="contained" disabled={isEditing}>Thêm</Button>
 
-          <Button
-            sx={{ mt: '10px', width: '50%'}}
-            onClick={ resetForm }
-            variant='contained'
-            color="error"
-          >
-            Hủy
-          </Button>
+          <Button sx={{ mt: '10px', width: '50%' }} onClick={ handleUpdate } variant="contained" disabled={!isEditing} color="success">Cập nhật</Button>
+
+          <Button sx={{ mt: '10px', width: '50%'}} onClick={ resetForm } variant='contained' color="error">Hủy</Button>
       </Box>
     </Box>
   )

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useTheme } from '@mui/material/styles'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 // MUI
@@ -17,6 +18,8 @@ import ProfileUser from './ProfileUser/ProfileUser.jsx'
 
 function NavBar() {
   const theme = useTheme()
+
+  const navigate = useNavigate()
 
   const [AccountInfor, SetAccountInfor] = useState(null)
   
@@ -42,6 +45,11 @@ function NavBar() {
     fetchAccount()
   }, [])
 
+  const clickOnLogo = () => { 
+    if (!isAdmin) navigate('trang-chu') 
+    else navigate('admin')
+  }
+
   return (
     <Box
       sx={{
@@ -57,7 +65,7 @@ function NavBar() {
           height: '100%',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between'
+          justifyContent: 'space-between',
         }}
       >
         {/* Button system */}
@@ -71,6 +79,7 @@ function NavBar() {
           }}>
           <IconButton
             disableRipple
+            onClick = {clickOnLogo}
             sx={{
               height: '100%',
               '&:hover': {

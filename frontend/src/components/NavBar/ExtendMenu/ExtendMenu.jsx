@@ -37,7 +37,7 @@ function ExtendMenu({ isAdmin }) {
     ]
   } else {
     Items = [
-      {text: 'Trang Chủ', path: '/trang-chu'},
+      {text: 'Trang Chủ', path: '/admin'},
       {text: 'Quản lý chứng chỉ', path: '/quan-ly-chung-chi'},
       {text: 'Quản lý khóa ôn', path: '/quan-ly-khoa-on'},
       {text: 'Quản lý kỳ thi', path: '/quan-ly-ky-thi'},

@@ -11,8 +11,7 @@ function TableHeaderCustome({ columns }) {
             key={index}
             align={column.isAction ? 'center' : 'left'}
             sx={{
-              fontWeight: 'bold',
-              textAlign: 'left'
+              fontWeight: 'bold'
             }}
           >
             {column.label}
